@@ -12,7 +12,7 @@ import { router } from "expo-router";
 
 export default function Index() {
   function handleSorteio() {
-    router.push("./sorteio");
+    router.push("./participantes");
   }
 
   return (

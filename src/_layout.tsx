@@ -7,5 +7,6 @@ export default function Layout() {
     }}
   >
     <Stack.Screen name="/sorteio/index" />
+    <Stack.Screen name="/participantes/index" />
   </Stack>;
 }
