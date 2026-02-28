@@ -1,83 +1,109 @@
 import {
-    Alert,
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+
+interface Participante {
+  id: string;
+  nome: string;
+  dica: string;
+  email: string;
+}
 
 export default function Participantes() {
-  const participantes = [
-    {
-      id: 1,
-      nome: "André Campos",
-      dica: "Gosto de livros de ficção científica",
-      email: "andre.campos@email.com",
-    },
-    {
-      id: 2,
-      nome: "Maria Silva",
-      dica: "Gosto de música clássica",
-      email: "maria.silva@email.com",
-    },
-    {
-      id: 3,
-      nome: "João Souza",
-      dica: "Gosto de jogos de tabuleiro",
-      email: "joao.souza@email.com",
-    },
-    {
-      id: 4,
-      nome: "Ana Oliveira",
-      dica: "Gosto de plantas e jardinagem",
-      email: "ana.oliveira@email.com",
-    },
-    {
-      id: 5,
-      nome: "Carlos Pereira",
-      dica: "Gosto de esportes ao ar livre",
-      email: "carlos.pereira@email.com",
-    },
-    {
-      id: 6,
-      nome: "Fernanda Costa",
-      dica: "Gosto de arte e pintura",
-      email: "fernanda.costa@email.com",
-    },
-    {
-      id: 7,
-      nome: "Ricardo Almeida",
-      dica: "Gosto de tecnologia e gadgets",
-      email: "ricardo.almeida@email.com",
-    },
-    {
-      id: 8,
-      nome: "Sofia Martins",
-      dica: "Gosto de culinária e gastronomia",
-      email: "sofia.martins@email.com",
-    },
-    {
-      id: 9,
-      nome: "Lucas Fernandes",
-      dica: "Gosto de música e instrumentos musicais",
-      email: "lucas.fernandes@email.com",
-    },
-    {
-      id: 10,
-      nome: "Mariana Rocha",
-      dica: "Gosto de viagens e aventuras",
-      email: "mariana.rocha@email.com",
-    },
-    {
-      id: 11,
-      nome: "Pedro Lima",
-      dica: "Gosto de esportes e atividades físicas",
-      email: "pedro.lima@email.com",
-    },
-  ];
+  const [participantes, setParticipantes] = useState<Participante[]>([]);
+  async function getParticipantes() {
+    try {
+      const dados = await AsyncStorage.getItem("participantes");
+
+      if (dados) {
+        setParticipantes(JSON.parse(dados));
+      }
+    } catch (error) {
+      console.log("Erro ao buscar participantes" + error);
+    }
+  }
+
+  useEffect(() => {
+    getParticipantes();
+  }, []);
+
+  // const participantes = [
+  //   {
+  //     id: 1,
+  //     nome: "André Campos",
+  //     dica: "Gosto de livros de ficção científica",
+  //     email: "andre.campos@email.com",
+  //   },
+  //   {
+  //     id: 2,
+  //     nome: "Maria Silva",
+  //     dica: "Gosto de música clássica",
+  //     email: "maria.silva@email.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     nome: "João Souza",
+  //     dica: "Gosto de jogos de tabuleiro",
+  //     email: "joao.souza@email.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     nome: "Ana Oliveira",
+  //     dica: "Gosto de plantas e jardinagem",
+  //     email: "ana.oliveira@email.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     nome: "Carlos Pereira",
+  //     dica: "Gosto de esportes ao ar livre",
+  //     email: "carlos.pereira@email.com",
+  //   },
+  //   {
+  //     id: 6,
+  //     nome: "Fernanda Costa",
+  //     dica: "Gosto de arte e pintura",
+  //     email: "fernanda.costa@email.com",
+  //   },
+  //   {
+  //     id: 7,
+  //     nome: "Ricardo Almeida",
+  //     dica: "Gosto de tecnologia e gadgets",
+  //     email: "ricardo.almeida@email.com",
+  //   },
+  //   {
+  //     id: 8,
+  //     nome: "Sofia Martins",
+  //     dica: "Gosto de culinária e gastronomia",
+  //     email: "sofia.martins@email.com",
+  //   },
+  //   {
+  //     id: 9,
+  //     nome: "Lucas Fernandes",
+  //     dica: "Gosto de música e instrumentos musicais",
+  //     email: "lucas.fernandes@email.com",
+  //   },
+  //   {
+  //     id: 10,
+  //     nome: "Mariana Rocha",
+  //     dica: "Gosto de viagens e aventuras",
+  //     email: "mariana.rocha@email.com",
+  //   },
+  //   {
+  //     id: 11,
+  //     nome: "Pedro Lima",
+  //     dica: "Gosto de esportes e atividades físicas",
+  //     email: "pedro.lima@email.com",
+  //   },
+  // ];
 
   function handleSorteio() {
     // Lógica para entrar no grupo e participar do sorteio
@@ -101,7 +127,7 @@ export default function Participantes() {
       <View style={styles.content}>
         <FlatList
           data={participantes}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View
               style={{ padding: 5, borderBottomWidth: 1, borderColor: "#ccc" }}
