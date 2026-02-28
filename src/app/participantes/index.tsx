@@ -11,6 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 
+import { router } from "expo-router";
+
 interface Participante {
   id: string;
   nome: string;
@@ -36,89 +38,24 @@ export default function Participantes() {
     getParticipantes();
   }, []);
 
-  // const participantes = [
-  //   {
-  //     id: 1,
-  //     nome: "André Campos",
-  //     dica: "Gosto de livros de ficção científica",
-  //     email: "andre.campos@email.com",
-  //   },
-  //   {
-  //     id: 2,
-  //     nome: "Maria Silva",
-  //     dica: "Gosto de música clássica",
-  //     email: "maria.silva@email.com",
-  //   },
-  //   {
-  //     id: 3,
-  //     nome: "João Souza",
-  //     dica: "Gosto de jogos de tabuleiro",
-  //     email: "joao.souza@email.com",
-  //   },
-  //   {
-  //     id: 4,
-  //     nome: "Ana Oliveira",
-  //     dica: "Gosto de plantas e jardinagem",
-  //     email: "ana.oliveira@email.com",
-  //   },
-  //   {
-  //     id: 5,
-  //     nome: "Carlos Pereira",
-  //     dica: "Gosto de esportes ao ar livre",
-  //     email: "carlos.pereira@email.com",
-  //   },
-  //   {
-  //     id: 6,
-  //     nome: "Fernanda Costa",
-  //     dica: "Gosto de arte e pintura",
-  //     email: "fernanda.costa@email.com",
-  //   },
-  //   {
-  //     id: 7,
-  //     nome: "Ricardo Almeida",
-  //     dica: "Gosto de tecnologia e gadgets",
-  //     email: "ricardo.almeida@email.com",
-  //   },
-  //   {
-  //     id: 8,
-  //     nome: "Sofia Martins",
-  //     dica: "Gosto de culinária e gastronomia",
-  //     email: "sofia.martins@email.com",
-  //   },
-  //   {
-  //     id: 9,
-  //     nome: "Lucas Fernandes",
-  //     dica: "Gosto de música e instrumentos musicais",
-  //     email: "lucas.fernandes@email.com",
-  //   },
-  //   {
-  //     id: 10,
-  //     nome: "Mariana Rocha",
-  //     dica: "Gosto de viagens e aventuras",
-  //     email: "mariana.rocha@email.com",
-  //   },
-  //   {
-  //     id: 11,
-  //     nome: "Pedro Lima",
-  //     dica: "Gosto de esportes e atividades físicas",
-  //     email: "pedro.lima@email.com",
-  //   },
-  // ];
-
   function handleSorteio() {
-    // Lógica para entrar no grupo e participar do sorteio
     const sorteio =
       participantes[Math.floor(Math.random() * participantes.length)];
-    Alert.alert(
-      "Sorteio Realizado!",
-      `O participante sorteado é: ${sorteio.nome}`,
-    );
+    console.log(sorteio);
 
-    let novaLista = participantes.filter(
-      (participante) => participante.id !== sorteio.id,
-    );
-    console.log("Lista atualizada de participantes:", novaLista);
-    // router.push("./sorteio");
+    Alert.alert(`Nome do Sorteado : ${sorteio.nome}`);
+
+    const newLista = participantes.filter((item) => item.id !== sorteio.id);
+    console.log(newLista);
+    setParticipantes(newLista);
+
+    router.push({
+      pathname: "/sorteio",
+      params: {
+        nome: sorteio.nome,
+        dica: sorteio.dica,
+      },
+    });
   }
 
   return (
@@ -130,10 +67,20 @@ export default function Participantes() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View
-              style={{ padding: 5, borderBottomWidth: 1, borderColor: "#ccc" }}
+              style={{
+                padding: 10,
+                borderColor: "#ececec",
+                borderWidth: 1,
+                marginBottom: 5,
+                borderRadius: 8,
+                height: 100,
+              }}
+              key={item.id}
             >
-              <Text style={{ fontWeight: "bold" }}>{item.nome}</Text>
-              <Text>{item.dica}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                {item.nome}
+              </Text>
+              <Text>Dica : {item.dica}</Text>
               <Text style={{ color: "#555" }}>{item.email}</Text>
             </View>
           )}

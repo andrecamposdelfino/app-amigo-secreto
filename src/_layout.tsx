@@ -14,9 +14,6 @@ export default function Layout() {
     }}
   >
     <Stack.Screen name="/index" options={{ title: "Sorteio" }} />
-    <Stack.Screen
-      name="/participantes/index"
-      options={{ title: "Participantes" }}
-    />
+    <Stack.Screen name="/participantes" options={{ title: "Participantes" }} />
   </Stack>;
 }

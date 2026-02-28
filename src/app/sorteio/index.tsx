@@ -1,48 +1,56 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
+const { id } = useLocalSearchParams();
+
 export default function Index() {
+  const { nome, dica } = useLocalSearchParams();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.contentIcon}>
-        <Ionicons name="sparkles-outline" size={60} color="#fdfdfd" />
-      </View>
-
-      <Text style={styles.title}>Sorteio Realizado</Text>
-      <Text style={styles.subTitle}>
-        Guarde segredo. Esta é a pessoa que você tirou no sorteio do amigo
-        secreto. Não conte para ninguém!
-      </Text>
-
-      <View style={styles.card}>
-        <Text style={{ fontSize: 16, color: "#ccc" }}>Você tirou</Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#050505" }}>
-          Carlos Eduardo
-        </Text>
-        <Text style={{ fontSize: 16, color: "#ccc", textAlign: "center" }}>
-          Dica: Gosta de livros de ficxao e café especial
-        </Text>
-      </View>
-
-      <TouchableOpacity style={styles.botaoEntrar} activeOpacity={0.7}>
-        <View style={styles.contentBotao}>
-          <Text style={styles.textoBotao}>
-            Enviamos uma copia para o seu e-mail
-          </Text>
-          <Ionicons name="mail" size={20} color="#ec620c" style={styles.icon} />
+    <ScrollView style={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.contentIcon}>
+          <Ionicons name="sparkles-outline" size={60} color="#fdfdfd" />
         </View>
-      </TouchableOpacity>
-    </View>
+
+        <Text style={styles.title}>Sorteio Realizado</Text>
+        <Text style={styles.subTitle}>
+          Guarde segredo. Esta é a pessoa que você tirou no sorteio do amigo
+          secreto. Não conte para ninguém!
+        </Text>
+
+        <View style={styles.card}>
+          <Text style={{ fontSize: 16, color: "#ccc", textAlign: "left" }}>
+            Você tirou
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "#050505",
+              textAlign: "center",
+            }}
+          >
+            {nome}
+          </Text>
+          <Text style={{ fontSize: 16, color: "#ccc", textAlign: "left" }}>
+            Dica: {dica}
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    // justifyContent: "center",
+    paddingTop: 60,
+    paddingHorizontal: 20,
   },
 
   title: {
@@ -99,8 +107,9 @@ const styles = StyleSheet.create({
 
   card: {
     width: "100%",
+    height: 150,
     backgroundColor: "#ec620c",
-    padding: 20,
+    padding: 10,
     marginTop: 20,
     borderRadius: 8,
     alignItems: "center",
